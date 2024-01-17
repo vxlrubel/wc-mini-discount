@@ -50,9 +50,11 @@
      * @return void
      */
     private function get_discount_percentage(){
-        
-        return 10;
+        $get_discount = ! is_null( get_option( '_wc_mini_discount' ) ) ? sanitize_text_field( get_option( '_wc_mini_discount' ) ) : '';
+        return $get_discount;
     }
+
+    
 
     /**
      * set discounted categories
