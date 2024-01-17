@@ -27,7 +27,73 @@
             add_action( 'admin_notices', [ $this, 'missing_wc_notice' ] );
         }
 
+        // register text-domain
         add_action( 'plugins_loaded', [ $this, 'register_text_domain' ] );
+
+        // render discount price
+        add_filter( 'woocommerce_get_price_html', [ $this, 'display_discounted_price' ], 10, 2 );
+    }
+
+    /**
+     * set discount
+     *
+     * @return void
+     */
+    private function get_discount_percentage(){
+        
+        return 10;
+    }
+
+    /**
+     * set discounted categories
+     *
+     * @return void
+     */
+    private function get_category(){
+        $categories = [
+            'clothing',
+            'electronic'
+        ];
+
+        return $categories;
+    }
+    /**
+     * get apply discount
+     *
+     * @param [type] $price
+     * @param [type] $product
+     * @return $price
+     */
+    private function get_apply_discount( $price, $product ){
+        if ( is_user_logged_in() ){
+            $get_discount = $this->get_discount_percentage();
+            $categories   = $this->get_category();
+
+            if( has_term( $categories, 'product_cat', $product->get_id() ) ){
+                $discount  = ( $get_discount / 100 ) * $price;
+                $price    -= $discount;
+            }
+        }
+
+        return $price;
+    }
+
+    /**
+     * display discount price
+     *
+     * @param [type] $price
+     * @param [type] $product
+     * @return $price
+     */
+    public function display_discounted_price( $price, $product ){
+        
+        $discounted_price = $this->get_apply_discount( $product->get_price(), $product );
+
+        if ( $discounted_price !== $product->get_price() ){
+            $price = '<del>' . wc_price($product->get_price()) . '</del> <ins>' . wc_price($discounted_price) . '</ins>';
+        }
+        
+        return $price;
     }
 
     /**
