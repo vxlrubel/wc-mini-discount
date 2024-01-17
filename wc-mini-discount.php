@@ -86,11 +86,17 @@
      * @return void
      */
     private function get_category(){
-        $categories = [
-            'clothing',
-            'electronic'
-        ];
+        global $wpdb;
+        $table = $wpdb->prefix . 'wc_mini_discount';
+        $sql = "SELECT name FROM $table";
+        $results = $wpdb->get_results( $sql, ARRAY_A );
 
+        $categories = [];
+
+        foreach ( $results as $result ) {
+            $categories[] = $result['name'];
+        }
+        
         return $categories;
     }
     /**
