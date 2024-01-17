@@ -44,6 +44,23 @@
         new Admin_Menu;
 
         register_activation_hook( __FILE__, [ $this, 'create_db_table' ] );
+
+        // admin scripts
+        add_action( 'admin_enqueue_scripts', [ $this, 'register_scripts' ] );
+    }
+
+    /**
+     * admin script
+     *
+     * @return void
+     */
+    public function register_scripts(){
+        if ( $_GET['page'] && $_GET['page'] == 'wc-mini-discount' ){
+            wp_enqueue_style( 
+              'wc-admin-style',
+              trailingslashit( plugins_url( 'wc-style.css', __FILE__ ) )
+            );
+        }
     }
 
     /**
