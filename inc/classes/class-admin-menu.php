@@ -87,16 +87,20 @@ class Admin_Menu{
         $this->set_discount_price();
         $this->add_category();
         $items = $this->get_results();
+
+        $get_discount_count = ! empty( get_option( '_wc_mini_discount' ) ) ? sanitize_text_field( get_option( '_wc_mini_discount' ) ) : 0;
+        
         ?>
         <div class="wrap wc-mini-discount">
             <h2>WC Mini Discount</h2>
 
             <div class="wrapper-box">
                 <div class="left-side">
-
+                    <h3 class="inner-title">Current Discount : <?php echo $get_discount_count; ?>% </h3>
                     <!-- set discount -->
                     <form action="<?php echo esc_url( $action ); ?>" method="POST">
-                        <input type="number" name="set_discount" min="0" max="100">
+                        <label for="set-price">Set Price: </label>
+                        <input type="number" id="set-price" name="set_discount" min="0" max="100" class="regular-text">
                         <p>
                             <input type="submit" value="Set Discount Price" class="button button-primary">
                         </p>
@@ -104,7 +108,8 @@ class Admin_Menu{
 
                     <!-- add category -->
                     <form action="<?php echo esc_url( $action ); ?>" method="POST">
-                        <input type="text" name="add_category" min="0" max="100">
+                        <label for="add-category">Add Category Name: </label>
+                        <input type="text" id="add-category" name="add_category" min="0" max="100" class="regular-text">
                         <p>
                             <input type="submit" value="Add New Category" class="button button-primary">
                         </p>
@@ -112,13 +117,18 @@ class Admin_Menu{
 
                 </div>
                 <div class="right-side">
+                    <h3 class="inner-title">Category List</h3>
                     <ul>
                         <?php
-                            foreach ( $items as $item ) {
-                                printf( '<li>%s</li>', $item );
+                            if( count( $items ) > 0){
+                                foreach ( $items as $item ) {
+                                    printf( '<li>%s</li>', $item );
+                                }
+                            }else{
+                                printf( '<li>%s</li>', 'No Reselt Found.' );
                             }
+                            
                         ?>
-                        <li> category items</li>
                     </ul>
                 </div>
             </div>
