@@ -42,6 +42,30 @@
 
         // create admin menu
         new Admin_Menu;
+
+        register_activation_hook( __FILE__, [ $this, 'create_db_table' ] );
+    }
+
+    /**
+     * create database table
+     *
+     * @return void
+     */
+    public function create_db_table(){
+        global $wpdb;
+        $table           = $wpdb->prefix . 'wc_mini_discount';
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE IF NOT EXISTS $table(
+            ID mediumint(9) NOT NULL AUTO_INCREMENT,
+            name VARCHAR(50),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (ID)
+        ) $charset_collate;";
+
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+        dbDelta( $sql );
     }
 
     /**
@@ -54,7 +78,7 @@
         return $get_discount;
     }
 
-    
+
 
     /**
      * set discounted categories
