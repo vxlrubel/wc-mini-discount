@@ -22,7 +22,24 @@
     private static $instance;
 
     public function __construct() {
-        
+        // woocommerce activate notice
+        if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+            add_action( 'admin_notices', [ $this, 'missing_wc_notice' ] );
+        }
+    }
+
+
+    /**
+     * display notice if Woocommerce is not active
+     *
+     * @return void
+     */
+    public function missing_wc_notice(){
+        ?>
+            <div class="notice notice-error is-dismissible">
+                <p><?php _e( 'WC Mini Discount requires WooCommerce to be installed and activated.', 'wc-mini-discount' ); ?></p>
+            </div>
+        <?php
     }
 
     /**
@@ -44,3 +61,4 @@
  function wc_mini_discount(){
     return WC_Mini_Discount::init();
  }
+ wc_mini_discount();
