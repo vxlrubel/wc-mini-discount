@@ -55,11 +55,10 @@
      * @return void
      */
     public function register_scripts(){
+        wp_register_style('wc-admin-style', plugins_url('wc-style.css', __FILE__), array(), '1.0', 'all');
+        
         if ( $_GET['page'] && $_GET['page'] == 'wc-mini-discount' ){
-            wp_enqueue_style( 
-              'wc-admin-style',
-              trailingslashit( plugins_url( 'wc-style.css', __FILE__ ) )
-            );
+            wp_enqueue_style('wc-admin-style');
         }
     }
 
