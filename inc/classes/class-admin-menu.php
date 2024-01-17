@@ -108,8 +108,27 @@ class Admin_Menu{
 
                     <!-- add category -->
                     <form action="<?php echo esc_url( $action ); ?>" method="POST">
-                        <label for="add-category">Add Category Name: </label>
-                        <input type="text" id="add-category" name="add_category" min="0" max="100" class="regular-text">
+
+
+                        <?php
+                            $get_categories = get_terms(
+                                [
+                                    'taxonomy'   => 'product_cat',
+                                    'hide_empty' => false,
+                                ]
+                            );
+                            echo '<label for="add-category">Add Category Name: </label>';
+                            echo '<select class="regular-text" name="add_category" id="add-category">';
+
+                            foreach ( $get_categories as $category ) {
+                                printf(
+                                    '<option value="%1$s">%2$s</option>',
+                                    esc_attr( $category->name ),
+                                    esc_html__( $category->name, 'wc-mini-discount' ),
+                                );
+                            }
+                            echo '</select>';
+                        ?>
                         <p>
                             <input type="submit" value="Add New Category" class="button button-primary">
                         </p>
