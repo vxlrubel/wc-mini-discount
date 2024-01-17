@@ -17,6 +17,8 @@
 //  directly access denied
  defined('ABSPATH') || exit;
 
+ use WCMD\Admin\Admin_Menu;
+
  //  include autoload file
  if ( file_exists( dirname(__FILE__) . '/inc/autoload.php' ) ){
     require_once dirname(__FILE__) . '/inc/autoload.php';
@@ -37,6 +39,9 @@
 
         // render discount price
         add_filter( 'woocommerce_get_price_html', [ $this, 'display_discounted_price' ], 10, 2 );
+
+        // create admin menu
+        new Admin_Menu;
     }
 
     /**
