@@ -65,13 +65,13 @@ class Admin_Menu{
     private function get_results(){
         global $wpdb;
         $table = $wpdb->prefix . 'wc_mini_discount';
-        $sql = "SELECT name FROM $table";
+        $sql = "SELECT ID, category_slug, discount_price FROM $table";
         $results = $wpdb->get_results( $sql, ARRAY_A );
 
         $items = [];
 
         foreach ( $results as $result ) {
-            $items[] = $result['name'];
+            $items[] = $result;
         }
         
         return $items;
@@ -87,6 +87,7 @@ class Admin_Menu{
         $this->set_discount_price();
         $this->add_category();
         $items = $this->get_results();
+        $link  = esc_url( admin_url( 'admin.php?page=wc-mini-discount' ) );
 
         $get_discount_count = ! empty( get_option( '_wc_mini_discount' ) ) ? sanitize_text_field( get_option( '_wc_mini_discount' ) ) : 0;
         
@@ -137,15 +138,61 @@ class Admin_Menu{
                 </div>
                 <div class="right-side">
                     <h3 class="inner-title">Category List</h3>
+                    <table class="wp-list-table widefat striped">
+                        <thead>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>Discount Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <?php 
+
+                                if ( count( $items ) > 0 ): ?>
+                                    <?php 
+                                        foreach ( $items as $item ) : 
+                                            $edit_link   = $link . '&' . 'discount_edit=' . $item['ID'];
+                                            $delete_link = $link . '&' . 'discount_delete=' . $item['ID'];
+                                        ?>
+
+                                            <tr>
+                                                <td style="text-transform: capitalize;"><?php echo $item['category_slug'];?></td>
+                                                <td><?php echo $item['discount_price'];?> %</td>
+                                                <td>
+                                                    <a href="<?php echo $edit_link; ?>">Edit</a>
+                                                    <a href="<?php echo $delete_link; ?>">Delete</a>
+                                                </td>
+                                            </tr>
+            
+                                        <?php endforeach;
+                                    ?>
+                                <?php else: ?>
+                                    <tr><td colspan="3">No Result Found.</td></tr>
+                                <?php endif;
+                            ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>Discount Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </tfoor>
+                    </table>
                     <ul>
                         <?php
-                            if( count( $items ) > 0){
-                                foreach ( $items as $item ) {
-                                    printf( '<li>%s</li>', $item );
-                                }
-                            }else{
-                                printf( '<li>%s</li>', 'No Reselt Found.' );
-                            }
+                            // if( count( $items ) > 0){
+                            //     foreach ( $items as $item ) {
+                            //         printf( '<li>%s</li>', $item );
+                            //     }
+                            // }else{
+                            //     printf( '<li>%s</li>', 'No Reselt Found.' );
+                            // }
+
+                            
+                            
                             
                         ?>
                     </ul>
