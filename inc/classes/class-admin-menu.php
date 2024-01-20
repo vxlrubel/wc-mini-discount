@@ -67,19 +67,34 @@ class Admin_Menu{
         $table = $wpdb->prefix . 'wc_mini_discount';
 
         if ( isset( $_REQUEST['category_slug'] ) && ! empty( $_REQUEST['category_slug'] ) && isset( $_REQUEST['discount_price'] ) &&  ! empty( $_REQUEST['discount_price'] ) ) {
-            $category_slug  = sanitize_text_field( $_REQUEST['category_slug'] );
-            $discount_price = trim( $_REQUEST['discount_price'] );
+            $category_slug     = sanitize_text_field( $_REQUEST['category_slug'] );
+            $discount_price    = trim( $_REQUEST['discount_price'] );
+            $existing_category = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE category_slug = %s", $category_slug));
 
             $data = [
                 'category_slug'  => $category_slug,
                 'discount_price' => $discount_price,
             ];
 
-            $result = $wpdb->insert( $table, $data );
+            if ( ! $existing_category ){
 
-            if( $result === false ){
-                echo 'something went wrong.';
+                $result = $wpdb->insert( $table, $data );
+
+                if( $result === false ){
+                    echo 'something went wrong.';
+                }
+                printf(
+                    '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+                    esc_html( 'Add new record successfull.' )
+                );
+
+            }else{
+                printf(
+                    '<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+                    esc_html( 'Category already exists.' )
+                );
             }
+
         }else{
             if ( isset( $_REQUEST['discount_price'] ) && empty( $_REQUEST['discount_price'] ) ){
                 printf(
