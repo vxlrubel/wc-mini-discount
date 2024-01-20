@@ -50,3 +50,11 @@
 	text-transform: capitalize;
 	font-size: 15px;
 }
+
+.wc-mini-discount .form-box {
+	display: flex;
+	justify-content: space-between;
+}
+.wc-mini-discount .form-box > div{
+	width: calc( 50% - 10px );
+}
