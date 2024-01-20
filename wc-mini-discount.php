@@ -96,7 +96,8 @@
 
         $sql = "CREATE TABLE IF NOT EXISTS $table(
             ID mediumint(9) NOT NULL AUTO_INCREMENT,
-            name VARCHAR(50),
+            category_slug VARCHAR(50),
+            discount_price int NOT NULL DEFAULT '0',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY  (ID)
         ) $charset_collate;";
