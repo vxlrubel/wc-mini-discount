@@ -38,26 +38,6 @@ class Admin_Menu{
     }
 
     /**
-     * add category
-     *
-     * @return void
-     */
-    public function add_category(){
-        global $wpdb;
-        $table = $wpdb->prefix . 'wc_mini_discount';
-
-        if ( isset( $_REQUEST['add_category'] ) && ! empty( $_REQUEST['add_category'] ) ){
-            $category_name = sanitize_text_field( $_REQUEST['add_category'] );
-
-            $data = [
-                'name' => $category_name
-            ];
-
-            $wpdb->insert( $table, $data );
-        }
-    }
-
-    /**
      * get results
      *
      * @return void
@@ -118,7 +98,6 @@ class Admin_Menu{
     public function render_page_content(){
         $action = $_SERVER['PHP_SELF'] . '?page=wc-mini-discount';
         $this->set_discount_price();
-        $this->add_category();
         $this->insert_category_discount();
         $items = $this->get_results();
         $link  = esc_url( admin_url( 'admin.php?page=wc-mini-discount' ) );
