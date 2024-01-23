@@ -186,8 +186,8 @@ class Admin_Menu{
                                                 <td style="text-transform: capitalize;"><?php echo $item['category_slug'];?></td>
                                                 <td><?php echo $item['discount_price'];?> %</td>
                                                 <td>
-                                                    <a href="<?php echo $edit_link; ?>">Edit</a>
-                                                    <a href="<?php echo $delete_link; ?>">Delete</a>
+                                                    <a href="<?php echo esc_url( $edit_link ); ?>">Edit</a>
+                                                    <a href="<?php echo esc_url( $delete_link ); ?>">Delete</a>
                                                 </td>
                                             </tr>
             
@@ -206,21 +206,6 @@ class Admin_Menu{
                             </tr>
                         </tfoor>
                     </table>
-                    <ul>
-                        <?php
-                            // if( count( $items ) > 0){
-                            //     foreach ( $items as $item ) {
-                            //         printf( '<li>%s</li>', $item );
-                            //     }
-                            // }else{
-                            //     printf( '<li>%s</li>', 'No Reselt Found.' );
-                            // }
-
-                            
-                            
-                            
-                        ?>
-                    </ul>
                 </div>
             </div>
         </div>
