@@ -58,3 +58,6 @@
 .wc-mini-discount .form-box > div{
 	width: calc( 50% - 10px );
 }
+.wc-mini-discount .wc-discount-item-delete {
+	color: #b32d2e;
+}
