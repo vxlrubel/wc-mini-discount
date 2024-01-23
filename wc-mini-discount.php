@@ -108,36 +108,33 @@
     }
 
     /**
-     * set discount
+     * set discount price
      *
      * @return void
      */
-    private function get_discount_percentage(){
-        $get_discount = ! is_null( get_option( '_wc_mini_discount' ) ) ? sanitize_text_field( get_option( '_wc_mini_discount' ) ) : '';
-        return $get_discount;
-    }
-
-
-
-    /**
-     * set discounted categories
-     *
-     * @return void
-     */
-    private function get_category(){
+    private function get_discount(){
         global $wpdb;
-        $table = $wpdb->prefix . 'wc_mini_discount';
-        $sql = "SELECT name FROM $table";
-        $results = $wpdb->get_results( $sql, ARRAY_A );
+        $table  = $wpdb->prefix . 'wc_mini_discount';
+        $sql    = "SELECT category_slug, discount_price FROM $table";
+        $result = $wpdb->get_results( $sql, ARRAY_A );
 
-        $categories = [];
+        $discount_categories = [];
 
-        foreach ( $results as $result ) {
-            $categories[] = $result['name'];
+        foreach ($result as $item ) {
+            $discount_categories[ $item['category_slug'] ] = $item['discount_price'];
         }
-        
-        return $categories;
+
+        // get product category
+        $product_categories = wp_get_post_terms( get_the_ID(), 'product_cat', [ 'fields' => 'slugs' ] );
+
+        foreach ( $product_categories as $product_category ) {
+
+            if ( isset( $discount_categories[ $product_category ] ) ){
+                return $discount_categories[ $product_category ];
+            }
+        }
     }
+    
     /**
      * get apply discount
      *
@@ -146,13 +143,14 @@
      * @return $price
      */
     private function get_apply_discount( $price, $product ){
-        if ( is_user_logged_in() ){
-            $get_discount = $this->get_discount_percentage();
-            $categories   = $this->get_category();
 
-            if( has_term( $categories, 'product_cat', $product->get_id() ) ){
-                $discount  = ( $get_discount / 100 ) * $price;
-                $price    -= $discount;
+        if ( is_user_logged_in() ){
+            $get_discount = $this->get_discount();
+
+            if ( $get_discount > 0 ){
+                $discount = ( $get_discount / 100 ) * $price;
+
+                $price -= $discount;
             }
         }
 
@@ -223,4 +221,5 @@
  function wc_mini_discount(){
     return WC_Mini_Discount::init();
  }
+
  wc_mini_discount();
