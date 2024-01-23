@@ -11,7 +11,7 @@ This is a custom WooCommerce discount plugin that allows setting different disco
 - Show discount price in the product page.
 - Easy to manage.
 
-![wc-mini-disocunt](https://github.com/vxlrubel/wc-mini-discount/assets/45916970/b4c472d9-0696-492c-a503-2dba002d1376)
+![wc-mini-disocunt](https://github.com/vxlrubel/wc-mini-discount/assets/45916970/f8c1cfe6-addc-4d39-b5cb-a7667ae12aa5)
 
 ## Installation
 
