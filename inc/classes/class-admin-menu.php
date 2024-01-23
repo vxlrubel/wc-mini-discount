@@ -136,6 +136,49 @@ class Admin_Menu{
     }
 
     /**
+     * update existing value
+     *
+     * @return void
+     */
+    private function update_edit_form(){
+
+        global $wpdb;
+        $table  = $wpdb->prefix . 'wc_mini_discount';
+
+        if ( isset( $_REQUEST['update_category_slug'] ) && ! empty( $_REQUEST['update_category_slug'] ) && isset( $_REQUEST['update_discount_price'] ) &&  ! empty( $_REQUEST['update_discount_price'] ) ) {
+            $category_slug  = sanitize_text_field( $_REQUEST['update_category_slug'] );
+            $discount_price = (int) $_REQUEST['update_discount_price'];
+
+            $get_id = (int) $_REQUEST['submited_id'];
+            $data   = [
+                'category_slug'  => $category_slug,
+                'discount_price' => $discount_price,
+            ];
+            $data_format = ['%s', '%d'];
+            $where_clause = [
+                'ID' => $get_id
+            ];
+            $where_clause_format = ['%d'];
+
+            if ( ! $existing_category ){
+                $update = $wpdb->update( $table, $data, $where_clause, $data_format, $where_clause_format );
+
+                if ( $update === false ){
+                    printf(
+                        '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+                        esc_html( 'something went wrong.' )
+                    );
+                }
+                printf(
+                    '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+                    esc_html( 'Data update successfully.' )
+                );
+            }
+        }
+        
+    }
+
+    /**
      * generate edit form
      *
      * @return void
@@ -147,6 +190,7 @@ class Admin_Menu{
         $sql    = "SELECT * FROM $table WHERE ID = $id";
         $result = $wpdb->get_results( $sql, ARRAY_A );
         $action = $_SERVER['PHP_SELF'] . '?page=wc-mini-discount';
+
 
         
         foreach ( $result as $row ) : ?>
@@ -184,11 +228,12 @@ class Admin_Menu{
                             id="set-price"
                             value="<?php echo esc_attr( $get_discount_prise_from_db ); ?>"
                             name="update_discount_price"
-                            min="0" max="100" class="widefat"
+                            min="0" max="100" step="5" class="widefat"
                         >
                     </div>
                 </div>
                 <p>
+                    <input type="hidden" name="submited_id" value="<?php echo $row['ID']; ?>">
                     <input type="submit" value="Update" class="button button-primary">
                 </p>
             </form>
@@ -205,6 +250,7 @@ class Admin_Menu{
         $this->set_discount_price();
         $this->insert_category_discount();
         $this->delete_discount();
+        $this->update_edit_form();
         $items = $this->get_results();
         $link  = esc_url( admin_url( 'admin.php?page=wc-mini-discount' ) );
 
@@ -247,7 +293,7 @@ class Admin_Menu{
                                     </div>
                                     <div class="discount-price">
                                         <label for="set-price">Set Price: </label>
-                                        <input type="number" id="set-price" name="discount_price" min="0" max="100" class="widefat">
+                                        <input type="number" id="set-price" name="discount_price" min="0" step="5"  max="100" class="widefat">
                                     </div>
                                 </div>
                                 <p>
