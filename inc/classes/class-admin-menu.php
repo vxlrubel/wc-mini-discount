@@ -106,6 +106,36 @@ class Admin_Menu{
     }
 
     /**
+     * delete discount item
+     *
+     * @return void
+     */
+    private function delete_discount(){
+        global $wpdb;
+        $table = $wpdb->prefix . 'wc_mini_discount';
+
+        if ( isset( $_REQUEST['discount_delete'] ) && ! empty( $_REQUEST['discount_delete'] ) ){
+            $id                  = (int) $_REQUEST['discount_delete'];
+            $where_clause        = [ 'ID' => $id ];
+            $where_clause_format = ['%d'];
+
+            $delete = $wpdb->delete( $table, $where_clause, $where_clause_format );
+
+            if ( $delete === false ){
+                printf(
+                    '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+                    esc_html( 'Something went wrong.' )
+                );
+            }
+
+            printf(
+                '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+                esc_html( 'Delete successfully.' )
+            );
+        }
+    }
+
+    /**
      * render the page content
      *
      * @return void
@@ -114,6 +144,7 @@ class Admin_Menu{
         $action = $_SERVER['PHP_SELF'] . '?page=wc-mini-discount';
         $this->set_discount_price();
         $this->insert_category_discount();
+        $this->delete_discount();
         $items = $this->get_results();
         $link  = esc_url( admin_url( 'admin.php?page=wc-mini-discount' ) );
 
