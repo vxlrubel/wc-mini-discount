@@ -160,20 +160,18 @@ class Admin_Menu{
             ];
             $where_clause_format = ['%d'];
 
-            if ( ! $existing_category ){
-                $update = $wpdb->update( $table, $data, $where_clause, $data_format, $where_clause_format );
+            $update = $wpdb->update( $table, $data, $where_clause, $data_format, $where_clause_format );
 
-                if ( $update === false ){
-                    printf(
-                        '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
-                        esc_html( 'something went wrong.' )
-                    );
-                }
+            if ( $update === false ){
                 printf(
-                    '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
-                    esc_html( 'Data update successfully.' )
+                    '<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+                    esc_html( 'something went wrong.' )
                 );
             }
+            printf(
+                '<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+                esc_html( 'Data update successfully.' )
+            );
         }
         
     }
