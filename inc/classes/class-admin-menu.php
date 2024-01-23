@@ -332,7 +332,7 @@ class Admin_Menu{
                                                 <td><?php echo $item['discount_price'];?> %</td>
                                                 <td>
                                                     <a href="<?php echo esc_url( $edit_link ); ?>">Edit</a>
-                                                    <a href="<?php echo esc_url( $delete_link ); ?>">Delete</a>
+                                                    <a href="<?php echo esc_url( $delete_link ); ?>" class="wc-discount-item-delete">Delete</a>
                                                 </td>
                                             </tr>
             
