@@ -1,4 +1,30 @@
-# wc-mini-discount
+# wc-mini-discount - WordPress Plugin
 Introducing WC Mini Discount, your go-to solution for adding dynamic category-based discounts to your WooCommerce store! Elevate your customer shopping experience by offering targeted discounts on specific product categories, encouraging higher sales and customer loyalty.
 
+## Installation
+
+1. Download the plugin  first [Click Here](https://codeload.github.com/vxlrubel/wc-mini-discount/zip/refs/heads/main) to download.
+2. Upload and activate the plugin through the WordPress admin panel. Goto `Admin Panel > Plugin > Add New`
+3. Activate the plugin through the WordPress 'Plugins' menu.
+
 ![wc-mini-disocunt](https://github.com/vxlrubel/wc-mini-discount/assets/45916970/b4c472d9-0696-492c-a503-2dba002d1376)
+
+
+## Features
+
+- Category wise discounts.
+- Show discount price in the product page.
+- Easy to manage.
+
+## Usage
+
+- After activate the plugin you will able to see the folder called `Mini Discount` above of the WC Plugin.
+- There will show the form with two (2) fields, `Select Category` and `Set Price`, `Set Price` means set discount price. This discount works as per percentage.
+- After fill the box click the `Add New Discount` button.
+- Now you will see the list of the discount category of the right side of your page.
+
+## Overview
+
+This is a custom WooCommerce discount plugin that allows setting different discounts for each product category. Users can manage category discounts from the WordPress admin panel, and the discounts will be displayed on the product page.
+
+
