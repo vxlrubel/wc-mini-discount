@@ -213,8 +213,8 @@ class Admin_Menu{
                             foreach ( $get_categories as $category ) {
                                 printf(
                                     '<option value="%1$s" %2$s>%3$s</option>',
-                                    esc_attr( $category->name ),
-                                    selected( $category->name, $get_category_from_db, false ),
+                                    esc_attr( $category->slug ),
+                                    selected( $category->slug, $get_category_from_db, false ),
                                     esc_html__( $category->name, 'wc-mini-discount' ),
                                 );
                             }
@@ -284,7 +284,7 @@ class Admin_Menu{
                                             foreach ( $get_categories as $category ) {
                                                 printf(
                                                     '<option value="%1$s">%2$s</option>',
-                                                    esc_attr( $category->name ),
+                                                    esc_attr( $category->slug ),
                                                     esc_html__( $category->name, 'wc-mini-discount' ),
                                                 );
                                             }
